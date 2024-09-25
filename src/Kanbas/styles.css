@@ -84,3 +84,7 @@ body * {
 .wd-assignment-control-buttons {
     margin-left: auto;
 }
+
+#wd-assignments-editor {
+    max-width: 500px;
+}
