@@ -37,3 +37,50 @@ body * {
 .wd-lesson {
     border-left: 3px solid green !important;
 }
+
+.wd-assignment-list-item {
+    border-left: 3px solid green !important;
+    display: flex;
+    flex-direction: row;
+}
+
+.wd-assignments-title {
+    display: flex;
+    flex-direction: row;
+}
+
+.wd-search-assignment-text {
+    background-color: white;
+    border-right: none;
+}
+
+.wd-search-assignment-input {
+    border-left: none;
+    max-width: 500px;
+}
+
+.multiple-modules {
+    color: red;
+}
+
+.wd-assignments-search-header {
+    display: flex;
+    flex-direction: row;
+}
+
+.lesson-control-button-container {
+    margin-left: auto;
+}
+
+.wd-add-assignment {
+    border: none;
+}
+
+.wd-assignment-percent-of-total {
+    border-color: black;
+    margin-left: auto;
+}
+
+.wd-assignment-control-buttons {
+    margin-left: auto;
+}
