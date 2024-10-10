@@ -5,9 +5,12 @@ import LessonControlButtons from "../Modules/LessonControlButtons";
 import { MdAssignment } from "react-icons/md";
 import { FaCaretDown } from "react-icons/fa";
 import { IoEllipsisVertical } from "react-icons/io5";
+import { assignments } from "../../Database";
+import { useParams } from "react-router";
 
 
 export default function Assignments() {
+    const { cid } = useParams();
     return (
         <div id="wd-assignments" className="wd-assignments container">
             <div className="wd-assignments-search-header text-nowrap me-4">
@@ -49,54 +52,26 @@ export default function Assignments() {
                         <IoEllipsisVertical className="fs-4" />
                     </div>
                 </li>
-                <li className="wd-assignment-list-item list-group-item ps-0">
-                    <div className="py-4 px-0">
-                        < BsGripVertical className=" fs-1" />
-                        < MdAssignment className="fs-1 text-success" />
-                    </div>
-                    <div className="ms-3">
-                        <a className="wd-assignment-link text-dark text-decoration-none"
-                            href="#/Kanbas/Courses/1234/Assignments/123">
-                            <b>A1</b>
-                        </a>
-                        <div><span className="multiple-modules">Multiple Modules</span> | <b>Not available until</b> May 6 at 12:00am |<br /> <b>Due</b> May 13 at 11:59pm | 100 pts</div>
-                    </div>
-                    <div className="py-4  lesson-control-button-container">
-                        <LessonControlButtons />
-                    </div>
-                </li>
-                <li className="wd-assignment-list-item list-group-item ps-0">
-                    <div className="py-4 px-0">
-                        < BsGripVertical className=" fs-1" />
-                        < MdAssignment className="fs-1 text-success" />
-                    </div>
-                    <div className="ms-3">
-                        <a className="wd-assignment-link text-dark text-decoration-none"
-                            href="#/Kanbas/Courses/1234/Assignments/123">
-                            <b>A2</b>
-                        </a>
-                        <div><span className="multiple-modules">Multiple Modules</span> | <b>Not available until</b> May 13 at 12:00am |<br /> <b>Due</b> May 20 at 11:59pm | 100 pts</div>
-                    </div>
-                    <div className="py-4  lesson-control-button-container">
-                        <LessonControlButtons />
-                    </div>
-                </li>
-                <li className="wd-assignment-list-item list-group-item ps-0">
-                    <div className="py-4 px-0">
-                        < BsGripVertical className=" fs-1" />
-                        < MdAssignment className="fs-1 text-success" />
-                    </div>
-                    <div className="ms-3">
-                        <a className="wd-assignment-link text-dark text-decoration-none"
-                            href="#/Kanbas/Courses/1234/Assignments/123">
-                            <b>A3</b>
-                        </a>
-                        <div><span className="multiple-modules">Multiple Modules</span> | <b>Not available until</b> May 20 at 12:00am |<br /> <b>Due</b> May 27 at 11:59pm | 100 pts</div>
-                    </div>
-                    <div className="py-4  lesson-control-button-container">
-                        <LessonControlButtons />
-                    </div>
-                </li>
+                {assignments
+                    .filter((assignments: any) => assignments.course === cid)
+                    .map((assignment: any) => (
+                        <li className="wd-assignment-list-item list-group-item ps-0">
+                            <div className="py-4 px-0">
+                                < BsGripVertical className=" fs-1" />
+                                < MdAssignment className="fs-1 text-success" />
+                            </div>
+                            <div className="ms-3">
+                                <a className="wd-assignment-link text-dark text-decoration-none"
+                                    href={`#/Kanbas/Courses/${cid}/Assignments/${assignment._id}`}>
+                                    <b>{assignment._id} - {assignment.title}</b>
+                                </a>
+                                <div><span className="multiple-modules">Multiple Modules</span> | <b>Not available until</b> May 6 at 12:00am |<br /> <b>Due</b> May 13 at 11:59pm | 100 pts</div>
+                            </div>
+                            <div className="py-4  lesson-control-button-container">
+                                <LessonControlButtons />
+                            </div>
+                        </li>
+                    ))}
             </ul>
         </div>
     );
