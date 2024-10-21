@@ -1,10 +1,13 @@
+import ModuleEditor from "./ModuleEditor";
 import { FaPlus } from "react-icons/fa6";
 import GreenCheckmark from "./GreenCheckmark";
 import { FiSlash } from "react-icons/fi";
 import Slash from "./Slash";
-export default function ModulesControls() {
+export default function ModulesControls(
+    { moduleName, setModuleName, addModule }:
+        { moduleName: string; setModuleName: (title: string) => void; addModule: () => void; }) {
     return (
-        <div id="wd-modules-controls" className="text-nowrap">
+        <div id="wd-modules-controls" className="text-nowrap" data-bs-toggle="modal" data-bs-target="#wd-add-module-dialog">
             <button id="wd-add-module-btn" className="btn btn-lg btn-danger me-1 float-end">
                 <FaPlus className="position-relative me-2" style={{ bottom: "1px" }} />
                 Module</button>
@@ -36,12 +39,14 @@ export default function ModulesControls() {
                     </li>
                 </ul>
             </div>
-            <button id="wd-view-progress" className="btn btn-lg btn-secondary me-1 float-end">            
+            <button id="wd-view-progress" className="btn btn-lg btn-secondary me-1 float-end">
                 View Progress
             </button>
-            <button id="wd-collapse-all" className="btn btn-lg btn-secondary me-1 float-end">                
+            <button id="wd-collapse-all" className="btn btn-lg btn-secondary me-1 float-end">
                 Collapse All
             </button>
+            <ModuleEditor dialogTitle="Add Module" moduleName={moduleName}
+                setModuleName={setModuleName} addModule={addModule} />
         </div>
     );
 }
