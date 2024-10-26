@@ -3,32 +3,38 @@ import { FaPlus } from "react-icons/fa6";
 import { BsGripVertical } from "react-icons/bs";
 import LessonControlButtons from "../Modules/LessonControlButtons";
 import { MdAssignment } from "react-icons/md";
-import { FaCaretDown } from "react-icons/fa";
+import { FaCaretDown, FaTrash } from "react-icons/fa";
 import { IoEllipsisVertical } from "react-icons/io5";
-import { assignments } from "../../Database";
+// import { assignments } from "../../Database";
 import { useParams } from "react-router";
-
+import { useSelector, useDispatch } from "react-redux";
+import AssignmentDeleteButton from "./AssignmentDeleteButton";
+import { deleteAssignment } from "./reducer";
 
 export default function Assignments() {
+    const { currentUser } = useSelector((state: any) => state.accountReducer);
+    const { assignments } = useSelector((state: any) => state.assignmentReducer);
     const { cid } = useParams();
+    const dispatch = useDispatch();
     return (
         <div id="wd-assignments" className="wd-assignments container">
             <div className="wd-assignments-search-header text-nowrap me-4">
                 <div className="input-group mb-3" id="wd-search-assignment">
                     <div className="input-group-text wd-search-assignment-text me-0" > <HiMagnifyingGlass /> </div>
                     <input className="wd-search-assignment-input form-control me-5" placeholder="Search..." />
-
                 </div>
-                <div>
+                {currentUser.role === "FACULTY" && <div>
                     <button id="wd-add-assignment-group" className="btn btn-secondary">
                         <FaPlus className="me-2" />
                         Group
                     </button>
-                    <button id="wd-add-assignment" className="btn btn-danger">
-                        <FaPlus className="me-2" />
-                        Assignment
-                    </button>
-                </div>
+                    <a href={`#/Kanbas/Courses/${cid}/Assignments/-1`}>
+                        <button id="wd-add-assignment" className="btn btn-danger">
+                            <FaPlus className="me-2" />
+                            Assignment
+                        </button>
+                    </a>
+                </div>}
             </div>
 
             <ul id="wd-assignment-list" className="list-group rounded-0 me-4">
@@ -62,12 +68,15 @@ export default function Assignments() {
                             </div>
                             <div className="ms-3">
                                 <a className="wd-assignment-link text-dark text-decoration-none"
-                                    href={`#/Kanbas/Courses/${cid}/Assignments/${assignment._id}`}>
+                                    href={currentUser.role === "FACULTY" ? `#/Kanbas/Courses/${cid}/Assignments/${assignment._id}` : `#/Kanbas/Courses/${cid}/Assignments`}>
                                     <b>{assignment._id} - {assignment.title}</b>
                                 </a>
-                                <div><span className="multiple-modules">Multiple Modules</span> | <b>Not available until</b> May 6 at 12:00am |<br /> <b>Due</b> May 13 at 11:59pm | 100 pts</div>
+                                <div><span className="multiple-modules">Multiple Modules</span> | <b>Not available until</b> {assignment.availableFrom} at 12:00am |<br /> <b>Due</b> {assignment.dueDate} at 11:59pm | {assignment.points} pts</div>
                             </div>
                             <div className="py-4  lesson-control-button-container">
+                                <AssignmentDeleteButton assignmentId={assignment._id} deleteAssignment={(assignmentId) => {
+                                    dispatch(deleteAssignment(assignment._id));
+                                }} />
                                 <LessonControlButtons />
                             </div>
                         </li>
