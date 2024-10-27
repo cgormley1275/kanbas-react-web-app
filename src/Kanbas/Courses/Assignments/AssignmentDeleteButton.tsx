@@ -1,7 +1,13 @@
 import { FaTrash } from "react-icons/fa";
+import AssignmentDeleteModal from "./AssignmentDeleteModal";
 
-export default function AssignmentDeleteButton({assignmentId, deleteAssignment} : {assignmentId: string; deleteAssignment : (assignmentId: string) => void}) {
+export default function AssignmentDeleteButton({ assignmentId, deleteAssignment }: { assignmentId: string; deleteAssignment: (assignmentId: string) => void }) {
     return (
-        <FaTrash className="text-danger me-2 mb-1" onClick={() => deleteAssignment(assignmentId)}/>
+        // <FaTrash className="text-danger me-2 mb-1" onClick={() => deleteAssignment(assignmentId)}/>
+        <span>
+            <FaTrash className="text-danger me-2 mb-1" data-bs-toggle="modal" data-bs-target="#wd-delete-assignment-dialog" />
+            <AssignmentDeleteModal assignmentId={assignmentId} deleteAssignment={deleteAssignment}/>
+        </span>
+
     )
 }
