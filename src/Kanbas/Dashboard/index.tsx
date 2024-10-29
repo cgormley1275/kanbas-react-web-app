@@ -56,7 +56,11 @@ export default function Dashboard(
                     {course.name} </h5>
                   <p className="wd-dashboard-course-title card-text overflow-y-hidden" style={{ maxHeight: 100 }}>
                     {course.description} </p>
-                  <Link to={`/Kanbas/Courses/${course._id}/Home`}
+                  <Link to={currentUser.role !== "STUDENT" || enrollments.some(
+                    (enrollment: { user: any; course: any; }) =>
+                      enrollment.user === currentUser._id &&
+                      enrollment.course === course._id
+                  ) ? `/Kanbas/Courses/${course._id}/Home` : `/Kanbas/Dashboard`}
                     className="wd-dashboard-course-link text-decoration-none text-dark" >
                     <button className="btn btn-primary"> Go </button>
                   </Link>
@@ -64,12 +68,12 @@ export default function Dashboard(
                     (enrollment: { user: any; course: any; }) =>
                       enrollment.user === currentUser._id &&
                       enrollment.course === course._id
-                  ) && < button className="btn btn-danger ms-2" onClick={() => {dispatch(deleteEnrollment({currentUser, course}))}}>Unenroll</button>}
+                  ) && < button className="btn btn-danger ms-2" onClick={() => { dispatch(deleteEnrollment({ currentUser, course })) }}>Unenroll</button>}
                   {currentUser.role === "STUDENT" && !enrollments.some(
                     (enrollment: { user: any; course: any; }) =>
                       enrollment.user === currentUser._id &&
                       enrollment.course === course._id
-                  ) && <button className="btn btn-success ms-2" onClick={() => {dispatch(addEnrollment({currentUser, course}))}}>Enroll</button>}
+                  ) && <button className="btn btn-success ms-2" onClick={() => { dispatch(addEnrollment({ currentUser, course })) }}>Enroll</button>}
                   {currentUser.role === "FACULTY" && <button onClick={(event) => {
                     event.preventDefault();
                     deleteCourse(course._id);
