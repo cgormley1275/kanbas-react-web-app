@@ -1,15 +1,16 @@
 import { useParams } from "react-router";
 import { Link } from "react-router-dom";
+import * as client from "./client";
 // import { assignments } from "../../Database";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { addAssignment, updateAssignment } from "./reducer";
+import { addAssignment, deleteAssignment, updateAssignment, setAssignments } from "./reducer";
 
 export default function AssignmentEditor() {
     const { cid, aid } = useParams();
     const { assignments } = useSelector((state: any) => state.assignmentReducer);
     let [assignment, setAssignment] = useState<any>(assignments.filter((assignments: any) => assignments._id === aid)[0]);
-    if (aid === "-1") {
+    if (!assignment) {
         assignment = {
             title: "",
             course: cid,
@@ -23,7 +24,22 @@ export default function AssignmentEditor() {
         }
     }
     const dispatch = useDispatch();
-    console.log(assignment.title)
+    const saveAssignment = async (assignment: any) => {
+        const status = await client.updateAssignment(assignment);
+        dispatch(updateAssignment(assignment));
+    };
+    const createAssignment = async (assignment: any) => {
+        const newAssignment = await client.createAssignment(cid as string, assignment);
+        dispatch(addAssignment(newAssignment));
+    };
+    const fetchAssignments = async () => {
+        const assignments = await client.findAssignmentsForCourse(cid as string);
+        dispatch(setAssignments(assignments));
+    };
+    useEffect(() => {
+        fetchAssignments();
+    }, []);
+    // console.log(assignment)
     return (
         <div>
             {
@@ -130,10 +146,10 @@ export default function AssignmentEditor() {
                                 </button>
                             </Link>
                             <Link to={`/Kanbas/Courses/${cid}/Assignments`}>
-                                {!(aid === "-1") && <button className="btn btn-danger" onClick={() => dispatch(updateAssignment(assignment))}>
+                                {!(aid === "-1") && <button className="btn btn-danger" onClick={() => saveAssignment(assignment)}>
                                     Save
                                 </button>}
-                                {(aid === "-1") && <button className="btn btn-danger" onClick={() => dispatch(addAssignment(assignment))}>
+                                {(aid === "-1") && <button className="btn btn-danger" onClick={() => createAssignment(assignment)}>
                                     Save
                                 </button>}
                             </Link>

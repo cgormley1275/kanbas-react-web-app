@@ -1,4 +1,6 @@
+import React, { useState, useEffect } from "react";
 import { HiMagnifyingGlass } from "react-icons/hi2";
+import * as client from "./client";
 import { FaPlus } from "react-icons/fa6";
 import { BsGripVertical } from "react-icons/bs";
 import LessonControlButtons from "../Modules/LessonControlButtons";
@@ -9,13 +11,28 @@ import { IoEllipsisVertical } from "react-icons/io5";
 import { useParams } from "react-router";
 import { useSelector, useDispatch } from "react-redux";
 import AssignmentDeleteButton from "./AssignmentDeleteButton";
-import { deleteAssignment } from "./reducer";
+import { addAssignment, deleteAssignment, updateAssignment, setAssignments } from "./reducer";
 
 export default function Assignments() {
     const { currentUser } = useSelector((state: any) => state.accountReducer);
     const { assignments } = useSelector((state: any) => state.assignmentReducer);
-    const { cid } = useParams();
+    
+    const { cid, aid } = useParams();
     const dispatch = useDispatch();
+
+    const removeAssignment = async (assignmentId: string) => {
+        console.log(assignmentId)
+        await client.deleteAssignment(assignmentId);
+        dispatch(deleteAssignment(assignmentId));
+    };
+    const fetchAssignments = async () => {
+        const assignments = await client.findAssignmentsForCourse(cid as string);
+        dispatch(setAssignments(assignments));
+    };
+
+    useEffect(() => {
+        fetchAssignments();
+    }, []);
     return (
         <div id="wd-assignments" className="wd-assignments container">
             <div className="wd-assignments-search-header text-nowrap me-4">
@@ -61,7 +78,7 @@ export default function Assignments() {
                 {assignments
                     .filter((assignments: any) => assignments.course === cid)
                     .map((assignment: any) => (
-                        <li className="wd-assignment-list-item list-group-item ps-0">
+                        <li key={assignment._id} className="wd-assignment-list-item list-group-item ps-0">
                             <div className="py-4 px-0">
                                 < BsGripVertical className=" fs-1" />
                                 < MdAssignment className="fs-1 text-success" />
@@ -73,10 +90,11 @@ export default function Assignments() {
                                 </a>
                                 <div><span className="multiple-modules">Multiple Modules</span> | <b>Not available until</b> {assignment.availableFrom} at 12:00am |<br /> <b>Due</b> {assignment.dueDate} at 11:59pm | {assignment.points} pts</div>
                             </div>
-                            <div className="py-4  lesson-control-button-container">
-                                <AssignmentDeleteButton assignmentId={assignment._id} deleteAssignment={(assignmentId) => {
-                                    dispatch(deleteAssignment(assignment._id));
-                                }} />
+                            <div className="py-4 lesson-control-button-container">
+                            {currentUser.role === "FACULTY" && <AssignmentDeleteButton assignmentId={assignment._id} deleteAssignment={(assignmentId) => {
+                                    console.log(assignmentId)
+                                    removeAssignment(assignmentId)
+                                }} />}
                                 <LessonControlButtons />
                             </div>
                         </li>
