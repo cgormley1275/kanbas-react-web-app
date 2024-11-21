@@ -8,7 +8,7 @@ export default function AssignmentDeleteButton({ assignmentId, deleteAssignment 
     return (
         // <FaTrash className="text-danger me-2 mb-1" onClick={() => deleteAssignment(assignmentId)}/>
         <span>
-            <div>{assignmentId}</div>
+            {/* <div>{assignmentId}</div> */}
             {/* <button onClick={() => {dispatch(setAssignmentId(assignmentId))}}><FaTrash className="text-danger me-2 mb-1" data-bs-toggle="modal" data-bs-target="#wd-delete-assignment-dialog"/></button> */}
             <FaTrash className="text-danger me-2 mb-1" data-bs-toggle="modal" data-bs-target="#wd-delete-assignment-dialog" onClick={() => {dispatch(setAssignmentId(assignmentId))}}/>
             <AssignmentDeleteModal assignmentId={assignmentId} deleteAssignment={deleteAssignment}/>

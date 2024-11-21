@@ -18,7 +18,7 @@ export default function AssignmentDeleteModal({ assignmentId, deleteAssignment }
                         <h5 className="modal-title">Delete Assignment</h5>
                         <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div>{newAssignmentId}</div>
+                    {/* <div>{newAssignmentId}</div> */}
                     <div className="modal-body">
                         <p>Are you sure you want to delete this assignment?</p>
                     </div>

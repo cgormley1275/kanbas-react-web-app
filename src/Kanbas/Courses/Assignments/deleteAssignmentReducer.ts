@@ -9,7 +9,6 @@ const deleteAssignmentSlice = createSlice({
     reducers: {
         setAssignmentId: (state, {payload: newAssignmentId}) => {
             state.newAssignmentId = newAssignmentId
-            // console.log("hello: ", state.assignmentId)
         },
     },
 });
