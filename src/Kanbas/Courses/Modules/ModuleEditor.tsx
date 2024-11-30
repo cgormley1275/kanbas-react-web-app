@@ -1,5 +1,7 @@
-export default function ModuleEditor({ dialogTitle, moduleName, setModuleName, addModule }:
-    { dialogTitle: string; moduleName: string; setModuleName: (name: string) => void; addModule: () => void; }) {
+import { Link } from "react-router-dom";
+
+export default function ModuleEditor({ courseId, dialogTitle, moduleName, setModuleName, addModule }:
+    { courseId: string; dialogTitle: string; moduleName: string; setModuleName: (name: string) => void; addModule: () => void; }) {
     return (
         <div id="wd-add-module-dialog" className="modal" data-bs-backdrop="static" data-bs-keyboard="false">
             <div className="modal-dialog">
@@ -16,8 +18,11 @@ export default function ModuleEditor({ dialogTitle, moduleName, setModuleName, a
                     <div className="modal-footer">
                         <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">
                             Cancel </button>
-                        <button onClick={addModule} type="button" data-bs-dismiss="modal" className="btn btn-danger">
-                            Add Module </button>
+                        <Link to={`/Kanbas/Courses/${courseId}/Home`}>
+                            <button onClick={addModule} type="button" data-bs-dismiss="modal" className="btn btn-danger">
+                                Add Module </button>
+                        </Link>
+
                     </div>
                 </div>
             </div>

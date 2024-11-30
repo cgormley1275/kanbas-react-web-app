@@ -4,8 +4,8 @@ import GreenCheckmark from "./GreenCheckmark";
 import { FiSlash } from "react-icons/fi";
 import Slash from "./Slash";
 export default function ModulesControls(
-    { moduleName, setModuleName, addModule }:
-        { moduleName: string; setModuleName: (title: string) => void; addModule: () => void; }) {
+    { cid, moduleName, setModuleName, addModule }:
+        { cid: string; moduleName: string; setModuleName: (title: string) => void; addModule: () => void; }) {
     return (
         <div id="wd-modules-controls" className="text-nowrap" >
             <button id="wd-add-module-btn" className="btn btn-lg btn-danger me-1 float-end" data-bs-toggle="modal" data-bs-target="#wd-add-module-dialog">
@@ -45,7 +45,7 @@ export default function ModulesControls(
             <button id="wd-collapse-all" className="btn btn-lg btn-secondary me-1 float-end">
                 Collapse All
             </button>
-            <ModuleEditor dialogTitle="Add Module" moduleName={moduleName}
+            <ModuleEditor courseId={cid} dialogTitle="Add Module" moduleName={moduleName}
                 setModuleName={setModuleName} addModule={addModule} />
         </div>
     );

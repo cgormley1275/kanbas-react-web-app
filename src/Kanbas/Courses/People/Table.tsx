@@ -4,7 +4,7 @@ import { Link, useParams } from "react-router-dom";
 import * as db from "../../Database";
 import PeopleDetails from "./Details";
 export default function PeopleTable({ users = [] }: { users?: any[] }) {
-    // const { cid } = useParams();
+    const { cid } = useParams();
     // const { users, enrollments } = db;
     return (
         <div id="wd-people-table">

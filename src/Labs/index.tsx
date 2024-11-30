@@ -9,7 +9,6 @@ import { Provider } from "react-redux";
 import Lab5 from "./Lab5";
 export default function Labs() {
   return (
-    <Provider store={store}>
       <div>
         <div>Christopher Gormley</div>
         <h1>Labs</h1>
@@ -23,7 +22,5 @@ export default function Labs() {
           <Route path="Lab5/*" element={<Lab5 />} />
         </Routes>
       </div>
-    </Provider>
-
   );
 }
